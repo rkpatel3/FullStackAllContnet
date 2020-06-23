@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Working with jQuery Collections</title>
+</head>
+
+<body>
+  <h1 data-id='0'>Hi!</h1>
+  <h1 data-id='1'>Hello!</h1>
+  <h1 data-id='2'>Goodbye!</h1>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    var $h1Elems = $('h1');
+
+    // each: when you want to do something to every item in a jquery collection
+    $h1Elems.each(function (index, item) {
+      console.log('each', index, item);
+      $(item).attr('data-is-awesome', true);
+    });
+
+    // filter: when you want to get a subset of items in your entire jquery collection based on some critera
+    // http://api.jquery.com/filter/#filter-function
+    console.log($h1Elems.length);
+    var $filteredH1s = $h1Elems.filter(function (index, item) {
+      return $(item).attr('data-id') === '1';
+    });
+    console.log($filteredH1s.length, $filteredH1s);
+
+    // Native JavaScript filter example
+    var arr = [
+      1, 2, 3, 4, 5
+    ];
+
+    var evenNumbers = arr.filter(function (item) {
+      // must return a boolean, true or false, in order to determine if the current item will be in the new dataset
+      return item % 2 === 0;
+    });
+
+    // I now would expect the result to look like this:
+    // var evenNumbers = [2, 4]
+  </script>
+</body>
+
+</html>

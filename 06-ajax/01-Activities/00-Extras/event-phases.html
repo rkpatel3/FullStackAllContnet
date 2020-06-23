@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Event Phases</title>
+</head>
+
+<body>
+  <div id="outer-div">
+    <div id="inner-div">
+      <h1 id="text">Click Me!</h1>
+      <h1>Click Me too!</h1>
+      <h1>Click Me as well!</h1>
+      <h2>I want to get clicked!</h2>
+      <h3>Yeah me too :'(</h3>
+      <h4>H4 is a hella lonley life.</h4>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var body = document.body;
+    var outerDiv = document.getElementById('outer-div');
+    var innerDiv = document.getElementById('inner-div');
+    var h1Text = document.getElementById('text');
+
+    document.addEventListener('click', function () {
+      console.log('the document was clicked!');
+    })
+
+    body.addEventListener('click', function () {
+      console.log('The body was clicked');
+    });
+
+    outerDiv.addEventListener('click', function () {
+      console.log('The outerDiv was clicked');
+    });
+
+    // Setup event delegation on the parent element to handle it's children's click events
+    innerDiv.addEventListener('click', function (event) {
+      console.log('The innerDiv was clicked');
+
+      // how do I say the H1 was the thing that was clicked?
+      var elementThatHasTheEventListener = event.currentTarget;
+      var elementThatTriggeredTheEvent = event.target;
+
+     if (elementThatTriggeredTheEvent.tagName === 'H1') {
+      event.stopPropagation();
+      console.log('The h1 was clicked but triggering logic in the innerDiv listerner via event delegation');
+     } else if (elementThatTriggeredTheEvent.tagName === 'H5') {
+      event.stopPropagation();
+      console.log('h5 is just so small and cute');
+     }
+    });
+
+    /* Just FYI: the above code is the equivalent of this, in jQuery
+
+    $('.innerDiv').on('click', 'h1', function () {
+
+    });
+    */
+
+    // When I go and add more heading later, because the event delegation is set up, I do not need
+    // to reattach event listeners to those specific elements again - their parent container container handles it.
+    var heading = document.createElement('h5');
+    heading.textContent = 'OMZG I AM SUCH A SMALL HEADER CAN U EVEN SEE ME';
+    innerDiv.appendChild(heading);
+
+    h1Text.addEventListener('click', function (event) {
+      // Use this to stop the parents of this element from triggering click events during the bubble phase
+      // event.stopPropagation();
+      console.log('The h1 was clicked');
+    });
+
+
+  </script>
+</body>
+
+</html>
